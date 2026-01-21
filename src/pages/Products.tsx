@@ -3,37 +3,53 @@ import '../App.css'
 import { useForm } from 'react-hook-form'
 import Navbar from '../components/Navbar'
 
- const Renderdata =({data})=>{
-    // console.log(category)
+const Containerstyle = {
+  // border : "1px solid black",
+  padding : "8px",
+  margin:"8px",
+  backgroundcolor : "lightblue",
+  borderradius : "5px",
+  width :"250px"
+}
+const cardstyle = {
+  display: "flex" ,
+  flexwrap : "wrap", 
+  gap :"10px"
+}
+ const Renderdata =({data , cat})=>{
     if(Array.isArray(data)){
-
+      const filteredData = cat?data.filter(
+        item=> typeof(item)==="object" && item!==null && item.category ==cat
+      ): data;
       return (
-        <ul>
+        <div style={Containerstyle}>
         {
-          data.map((item , index)=>(
-            <li key={index} style={{display:"flex", backgroundColor:"lightblue"}}>
-              <Renderdata data = {item}/>
-            </li>
+          filteredData.map((item , index)=>(
+            <div key={index} style={cardstyle} >
+              <Renderdata data = {item } cat = {cat} />
+            </div>
           ))
         }
-        </ul>
+        </div>
       )
     }
-
     if(typeof data ==="object" && data!==null ){
       return (
-        <ul>
+        <div style={cardstyle}>
           {
             Object.entries(data).map(([key , value] , index)=>(
-              <li key={index}>
-                {/* {key && key=="category" && localStorage.setItem('category',json.stringify(value))} */}
-                <span style={{border:"1px solid black", textAlign:"left"}}>{key}:</span><Renderdata data={value}/>
-              </li>
+              <div key={index} style={{marginBottom:"10px"}}>
+                {
+                 (
+                  <><strong>{key}:</strong>
+                 <Renderdata data={value } cat= { cat}/>
+                 </>
+                )}
+              </div>
             ))
           }
-        </ul>
+        </div>
       )
-
     }
     return <span>{String(data)}</span>
 
@@ -45,7 +61,7 @@ import Navbar from '../components/Navbar'
 function Products(){  
   const [AllItems,setItem] = useState([]);
   const [Categories , setCategories] = useState([]);
-
+  const [selectedCat , setSelectedCat] = useState(null);
   useEffect(()=>{
   
       fetch('https://dummyjson.com/products')
@@ -58,11 +74,9 @@ function Products(){
 
   },[])
 
-  // console.log(AllItems[0])
-  // AllItems?.map((item,index)=>{
-  //   console.log(item);
-  // })
-
+  const filterData = (cat) =>{
+    setSelectedCat(cat);
+  }
   console.log(Categories);
   return (
     <>
@@ -74,12 +88,14 @@ function Products(){
       <h1 className="text-3xl font-bold underline">
       Hello
       </h1>
-      <select name="" id="">
+      
       {Categories.map((cat , index)=>(
-        <option value={cat}>{cat}</option>
+        <button key={index} onClick={()=> filterData(cat)}>{cat}</button>
       ))}
-      </select>
-      <Renderdata data={AllItems  }></Renderdata>
+
+      <button onClick={()=> setSelectedCat(null)}>ALL</button>
+
+      <Renderdata data={AllItems } cat ={selectedCat}></Renderdata>
       
     </div>
     </>

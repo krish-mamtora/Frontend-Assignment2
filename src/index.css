@@ -16,13 +16,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-ul{
+/* ul{
   list-style-type: none; 
    border: 1px solid black;
 }
 div{
  
-}
+} */
 a {
   font-weight: 500;
   color: #646cff;
