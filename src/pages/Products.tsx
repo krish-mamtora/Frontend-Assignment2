@@ -62,6 +62,8 @@ function Products(){
   const [AllItems,setItem] = useState([]);
   const [Categories , setCategories] = useState([]);
   const [selectedCat , setSelectedCat] = useState(null);
+  const [searchName , setSearchName]  = useState(null);
+
   useEffect(()=>{
   
       fetch('https://dummyjson.com/products')
@@ -74,8 +76,17 @@ function Products(){
 
   },[])
 
+  function searchField(name){
+    fetch(`https://dummyjson.com/products/search?q=${name}`)
+    .then(res =>res.json())  
+    .then(data => setItem(data.products));
+
+    console.log(searchName);
+    // console.log(name)
+  }
+
   const filterData = (cat) =>{
-    setSelectedCat(cat);
+    setSelectedCat(cat || null);
   }
   console.log(Categories);
   return (
@@ -89,12 +100,26 @@ function Products(){
       Hello
       </h1>
       
-      {Categories.map((cat , index)=>(
+      {/* {Categories.map((cat , index)=>(
         <button key={index} onClick={()=> filterData(cat)}>{cat}</button>
-      ))}
+      ))} */}
 
-      <button onClick={()=> setSelectedCat(null)}>ALL</button>
+      {/* <button onClick={()=> setSelectedCat(null)}>ALL</button> */}
 
+
+      <input type="text" placeholder='Enter Name' onChange={(e)=>searchField(e.target.value) }/>
+      
+      <select name="" id="" value={selectedCat || ""} onChange={(e)=> filterData(e.target.value)}>
+      <option value="">All</option>
+
+
+      {
+        Categories.map((cat , index)=>(
+          <option key={index} value={cat}>{cat}</option>
+        ))
+      }
+      </select>
+      
       <Renderdata data={AllItems } cat ={selectedCat}></Renderdata>
       
     </div>
