@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import '../App.css'
 import '../index.css'
+import Navbar from '../components/Navbar'
 import { set, useForm } from 'react-hook-form'
 
 function Dashboard() {
@@ -16,17 +17,13 @@ function Dashboard() {
   },[]);
 
   const onSubmit = (data:Object) =>{
-    // console.log(typeof(data));
     addItem(data);
-    // listproduct();
   }
 
   const addItem = (data:Object) =>{
 
     let olditems = JSON.parse(localStorage.getItem('items'))||[]; 
-    // console.log('here : ', data.ProductName , typeof(data.ProductName));
 
-    // items = items + ',' +(data.ProductName);
     const newItem ={
       ProductName: data.ProductName,
       Price : data.Price,
@@ -37,27 +34,10 @@ function Dashboard() {
     const updated = [...olditems , newItem];
     localStorage.setItem('items' , JSON.stringify(updated));
     setItems(updated);
-    // console.log(localStorage.getItem('items'));
-    // localStorage.setItem('items' , items);
-    // localStorage.setItem(data.ProductName , [data.Price , data.Category]);
-   
+  
   }
 
-    // const listproduct =()=> {
-    //     const allItems = localStorage.getItem('items');
-    //     console.log(allItems);
-        // if(allitems){
-        //     const words = allitems.split(',');
-            
-        //     words.forEach((word,index) => {
-        //         console.log(`${word} is at ${index}`);
-        //         store.push(word);
-        //     });
-        // }    
-        
-    // }
    const deleteItem = (index) =>{
-        // localStorage.setItem()
         console.log(index);
          let allitems = JSON.parse(localStorage.getItem('items'))||[]; 
          allitems.splice(index , 1);
@@ -68,10 +48,11 @@ function Dashboard() {
 
   return (
     <>
-    
+    <Navbar></Navbar>
     <div>
       <div >
         <h4>Dashboard</h4>
+        <a href="/R">Router</a>
         <div >
            <h5>Items</h5>
            <div style={{display:"grid" , gap :"2px"}}>
