@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import '../App.css'
 import { useForm } from 'react-hook-form'
 import Navbar from '../components/Navbar'
+import { ThemeContext, ThemeProvider } from '../components/ThemeContext'
+
 
 const Containerstyle = {
   // border : "1px solid black",
@@ -16,6 +18,7 @@ const cardstyle = {
   flexwrap : "wrap", 
   gap :"10px"
 }
+
  const Renderdata =({data , cat})=>{
     if(Array.isArray(data)){
       const filteredData = cat?data.filter(
@@ -41,7 +44,7 @@ const cardstyle = {
               <div key={index} style={{marginBottom:"10px"}}>
                 {
                  (
-                  <><strong>{key}:</strong>
+                  <><strong style={{}}>{key}:</strong>
                  <Renderdata data={value } cat= { cat}/>
                  </>
                 )}
@@ -55,10 +58,8 @@ const cardstyle = {
 
   }
 
-  
-
-
 function Products(){  
+   const {darkTheme} = useContext(ThemeContext);
   const [AllItems,setItem] = useState([]);
   const [Categories , setCategories] = useState([]);
   const [selectedCat , setSelectedCat] = useState(null);

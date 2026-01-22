@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import R from './components/R'
 import Products from './pages/Products'
 import Home from './pages/Home'
+import { ThemeContext } from './components/ThemeContext'
 
 function App() {
 
